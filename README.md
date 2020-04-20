@@ -587,57 +587,267 @@ What? 并不是`404`，而是`403`,接口是存在的，但是我们不允许访
 
 ##  查询参数
 
+> 基础的增删改查接口已经演示完毕了，文件上传也演示完毕了，如果数据的获取需要加上各种条件呢，比如排序，比如搜索，这个时候我们就可以使用查询参数了
+
+[官网传送门-Parameters](https://strapi.io/documentation/3.0.0-beta.x/content-api/parameters.html#available-operators)
+
+这部分的内容直接摘录于官网,并稍作调整
+
+可用的运算符主要有如下四类
+
+- [Filters](https://strapi.io/documentation/3.0.0-beta.x/content-api/parameters.html#filters)：筛选
+- [Sort](https://strapi.io/documentation/3.0.0-beta.x/content-api/parameters.html#sort)：排序
+- [Limit](https://strapi.io/documentation/3.0.0-beta.x/content-api/parameters.html#limit)：限制
+- [Start](https://strapi.io/documentation/3.0.0-beta.x/content-api/parameters.html#start)：开始索引，一般结合`Limit`实现分页
+
+### Filters - 筛选
+
+筛选条件直接作为查询字段的后缀使用
+
+- 无后缀或`eq`：等于
+- `ne`：不等于
+- `lt`： 少于
+- `gt`： 比...更棒
+- `lte`：小于或等于
+- `gte`：大于或等于
+- `in`：包含在值数组中
+- `nin`：不包含在值数组中
+- `contains`：包含
+- `ncontains`：不包含
+- `containss`：包含区分大小写
+- `ncontainss`：不包含区分大小写
+- `null`：为空/不为空
+- `_q`:全文模糊搜索，这部分内容是阅读[自定义控制器](https://strapi.io/documentation/3.0.0-beta.x/concepts/controllers.html#find)发现的
+
+例子
+
+查询标题`title`是`西兰花`的文章
+
+```
+GET /articles?title=西兰花  或者 GET /articles?title_eq=西兰花
+```
+
+查找年龄`age`大于或等于18的用户
+
+```
+GET /user?age_gte=3
+```
+
+查找`id`是1，5，7的文章
+
+```
+GET /articles?id_in=1&id_in=5&id_in=7
+```
+
+全文模糊搜索，任意字段中有`西`的文章
+
+```
+GET /articles?_q=西
+```
+
+
+
+### Sort - 排序
+
+根据特定字段排序。
+
+* asc:升序排列
+* desc:倒序排列
+
+**示例**
+
+通过年龄对用户排序，升序和倒序
+
+- 升序： `GET /users?_sort=age:ASC`
+- 倒序： `GET /users?_sort=age:DESC`
+
+多个字段上排序，年龄和身高
+
+- `GET /users?_sort=age:asc,height:desc`
+- `GET /users?_sort=age:DESC,height:ASC`
+
+
+
+### Limit - 限制
+
+限制返回结果的大小。
+
+默认限制是 `100`
+
+
+
+**示例：**
+
+将结果长度限制为30。
+
+```
+GET /users?_limit=30
+```
 
 
 
 
-项目创建
 
-https://strapi.io/documentation/3.0.0-beta.x/getting-started/quick-start-tutorial.html#_1-install-strapi-and-create-a-project
+### Start - 起始索引
 
-### 数据表和字段创建
-https://strapi.io/documentation/3.0.0-beta.x/getting-started/quick-start-tutorial.html#_3-create-a-new-collection-type-called-restaurant
-
-### 数据API
-https://strapi.io/documentation/3.0.0-beta.x/content-api/api-endpoints.html#endpoints
-
-### 开放访问权限
-https://strapi.io/documentation/3.0.0-beta.x/getting-started/quick-start-tutorial.html#_7-set-roles-and-permissions
-
-### 文件上传
-https://strapi.io/documentation/3.0.0-beta.x/plugins/upload.html#configuration
-
-## 查询参数
-https://strapi.io/documentation/3.0.0-beta.x/content-api/parameters.html#available-operators
-
-### 文档生成
-https://strapi.io/documentation/3.0.0-beta.x/plugins/documentation.html
-
-### 自定义
-https://strapi.io/documentation/3.0.0-beta.x/admin-panel/customization.html#change-access-url
-
-## 进阶
+跳过特定数量的条目（尤其对于分页很有用）。
 
 
-1. 用户
 
-## 自定义
+**示例**
 
-1. 重写控制器
-    https://strapi.io/documentation/3.0.0-beta.x/concepts/controllers.html
-2. 自定义数据响应
-    https://strapi.io/documentation/3.0.0-beta.x/guides/custom-data-response.html#custom-data-response
-* 草稿系统
-    https://strapi.io/documentation/3.0.0-beta.x/guides/draft.html
-* 错误捕获
-3. 添加自定义路由
-   https://strapi.io/documentation/3.0.0-beta.x/concepts/routing.html
-4. 数据库操纵api:
-    https://strapi.io/documentation/3.0.0-beta.x/concepts/queries.html#queries
-5. 异常处理
-    https://strapi.io/documentation/3.0.0-beta.x/guides/error-catching.html#handle-errors
+每页10条，获取第二页
+
+```
+GET /users?_start=10&_limit=10
+```
+
+ 
+
+## 用户接口
+
+> 默认的用户是我们在网页中添加的，也可以自行注册，然后登陆哦，这部分官网很简单，大伙可以自行阅读，或者查看我截取的内容
+
+[官网传送门- 用户注册](https://strapi.io/documentation/3.0.0-beta.x/plugins/users-permissions.html#registration)
+
+[官网传送门 - 用户登录](https://strapi.io/documentation/3.0.0-beta.x/plugins/users-permissions.html#login)
 
 
+
+这2个接口默认都是开放的，我们不需要人为开启，直接即可使用哦，可以根据下图进行查看
+
+1. 点击左侧的`身份与权限`
+2. 选择`Public`
+3. 选择最下面的选项`USERS-PERMISSIONS`
+4. 可以看到接口相关接口都是开放的
+
+![image-20200420164110416](README.assets/image-20200420164110416.png)
+
+
+
+### 用户注册
+
+注册接口的参数如下
+
+| 请求方法 | 接口地址               | 接口描述 | 参数                                       |
+| :------- | :--------------------- | :------- | ------------------------------------------ |
+| POST     | `/auth/local/register` | 用户注册 | username 用户名，email 邮箱，password 密码 |
+
+**postman请求示例：**
+
+![image-20200420165333369](README.assets/image-20200420165333369.png)
+
+
+
+### 用户登录
+
+| 请求方法 | 接口地址      | 接口描述 | 参数                                   |
+| :------- | :------------ | :------- | -------------------------------------- |
+| POST     | `/auth/local` | 用户登录 | identifier 用户名或邮箱，password 密码 |
+
+
+
+**postman请求示例：**
+
+1. 地址和请求方法不要弄错
+2. JSON格式需要注意
+3. 登录成功之后会返回用户的信息哦
+
+![image-20200420165555147](README.assets/image-20200420165555147.png)
+
+## 验证请求
+
+> 默认的所有接口都是开放为`public`直接即可访问，这并不合理，接下来我们一起来看看如何进行校验
+
+[官网传送门 - 验证请求](https://strapi.io/documentation/3.0.0-beta.x/guides/auth-request.html#introduction)
+
+### 调整接口访问权限
+
+步骤：
+
+1. `public`中禁用所有的`articles`的接口访问
+
+![image-20200420170050515](README.assets/image-20200420170050515.png)
+
+2. `authenticated`中放通`articles`中的接口访问
+
+![image-20200420170218248](README.assets/image-20200420170218248.png)
+
+
+
+3. 可以尝试通过`postman`访问之前的接口，应该可以看到如下提示
+
+![image-20200420170327641](README.assets/image-20200420170327641.png)
+
+
+
+### 登录并调用接口
+
+步骤：
+
+1. 先使用注册的用户进行登录，比如上一步的`jack`
+2. 获取到登录之后的`token`
+3. token在响应的`jwt`字段后
+
+![image-20200420165555147](README.assets/image-20200420165555147.png)
+
+1. 调用接口，并在`Headers`中携带token
+
+   1. key为:`Authorization`
+
+   2. 值为:`Bearer`空格`token`拼接起来
+
+   3. 比如：
+
+      1. token**为**:`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX`
+      2. 提交的就是 中间用空格分隔
+
+      ```
+      Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX
+      ```
+
+      3. 这里为了版面把token的值稍微缩短了一些，实际已接口返回的为准
+
+
+
+postman调用:
+
+![image-20200420171221123](README.assets/image-20200420171221123.png)
+
+
+
+
+
+## 说点什么
+
+基本的使用已经演示完毕了，一些我还用到的功能这里附上官网的传送门，结合谷歌翻译相信大伙应该可以弄懂。
+
+官网是个好东西！
+
+官网是个好东西！
+
+官网是个好东西！
+
+重要的事情说三遍
+
+
+
+1. [自定义访问地址](https://strapi.io/documentation/3.0.0-beta.x/admin-panel/customization.html#change-access-url)
+
+2. [自动生成接口文档](https://strapi.io/documentation/3.0.0-beta.x/plugins/documentation.html)
+3. [控制器](https://strapi.io/documentation/3.0.0-beta.x/concepts/controllers.html#core-controllers)
+   1. 如果想要在控制器中添加自定义逻辑，可以看看这个
+4. [自定义响应内容](https://strapi.io/documentation/3.0.0-beta.x/guides/custom-data-response.html#custom-data-response)
+   1. 默认返回的数据中字段很多，可以通过自定义响应内容移除多余部分
+
+5. [路由](https://strapi.io/documentation/3.0.0-beta.x/concepts/routing.html)
+   1. 默认的接口如果无法满足你，或者你想要添加自定义的接口（路由），可以看看这里
+6. [数据库查询方法](https://strapi.io/documentation/3.0.0-beta.x/concepts/queries.html#queries)
+   1. 如果希望在控制器中自己写更为复杂的数据库操纵逻辑可以看看这篇文章
+
+.....
+
+(待补充)最近会用这个东西模拟2个项目的接口，弄完之后有什么新收获会更新上来
 
 
 

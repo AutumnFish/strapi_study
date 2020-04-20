@@ -491,13 +491,107 @@ What? 并不是`404`，而是`403`,接口是存在的，但是我们不允许访
 
 ## 文件上传
 
-> 文件上传`strapi`默认也帮助我们整合了哦，如何使用呢？
+> 文件上传`strapi`默认也帮助我们整合了哦，如何使用呢？我们分别来演示一下，网页端上传和接口中上传
 
 
 
-[todo]
+### 网页上传
 
-### 项目创建
+我们首先来看看如何在网页端上传：
+
+1. 左侧选择`Media Library`
+2. 点击中间的`Upload assets`
+
+
+
+![image-20200420150543060](README.assets/image-20200420150543060.png)
+
+3. 在弹出的页面中选择要上传的文件
+
+![image-20200420150856000](README.assets/image-20200420150856000.png)
+
+
+
+4. 根据需求继续选择文件
+5. 或者点击绿色按钮完成上传
+
+![image-20200420151354575](README.assets/image-20200420151354575.png)
+
+6. 上传完成之后可以看到该文件
+7. 点击可以进入详情，进行更为精细的设置
+
+![image-20200420152040954](README.assets/image-20200420152040954.png)
+
+
+
+
+
+### 上传接口
+
+[官方文档](https://strapi.io/documentation/3.0.0-beta.x/plugins/upload.html#configuration)
+
+官方文档中对于文件的上传接口有很多个，除了基础的上传接口以外，还有统计，删除，根据id获取等等。。
+
+本文中重点演示上传接口:
+
+步骤：
+
+1. 左侧点击身份与权限
+2. 选择`public`
+3. 底部选择`upload`
+   1. 在展开的菜单中勾选`upload`放通该接口的权限
+4. 点击左上角的`储存`
+
+![image-20200420153644107](README.assets/image-20200420153644107.png)
+
+
+
+### 测试上传接口
+
+依旧选用`postman`来进行接口的测试
+
+| 请求方法 | 接口地址  | 接口描述 | 参数                    |
+| :------- | :-------- | :------- | ----------------------- |
+| POST     | `/upload` | 文件上传 | files ,类型选择文件即可 |
+
+步骤：
+
+1. 修改地址和请求方法
+2. 选择body然后选择form-data
+3. key是`files`，鼠标在后面稍微悬停一会，选择`file`
+4. 点击后面的`select files`选择上传的文件
+5. 点击send即可提交
+
+![image-20200420154323911](README.assets/image-20200420154323911.png)
+
+
+
+6. 如果没有问题就可以看到类似于如下的响应信息
+
+![image-20200420154518573](README.assets/image-20200420154518573.png)
+
+7. 同时在网页中`Media library`中可以看到刚刚上传的文件，如果没有可以刷新一下页面
+
+![image-20200420154640393](README.assets/image-20200420154640393.png)
+
+
+
+### 备注
+
+1. 数据表中可以选择`Media`类型，但是这样就需要通过`form-data`将数据和媒体文件一起上传，这部分操作可以参考官方文档
+   1. [官方指南-新建restaurant数据表](https://strapi.io/documentation/3.0.0-beta.x/getting-started/quick-start-tutorial.html#_3-create-a-new-collection-type-called-restaurant)
+   2. [新增条目时上传文件](https://strapi.io/documentation/3.0.0-beta.x/plugins/upload.html#upload-file-during-entry-creation)
+2. 现在更加流行的方式是，文件上传为单独的接口，数据中保存文件的地址即可，所以本文这部分内容就不再演示了
+
+
+
+##  查询参数
+
+
+
+
+
+项目创建
 
 https://strapi.io/documentation/3.0.0-beta.x/getting-started/quick-start-tutorial.html#_1-install-strapi-and-create-a-project
 

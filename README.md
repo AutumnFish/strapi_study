@@ -2,6 +2,8 @@
 
 > 官方的描述是`无头的CMS`，听起来很吓人对不对，说的通俗一些，他可以十分简便的进行内容管理，并且暴露对应的接口，让外部调用，文件上传，接口权限，token全部都已经内置了，相比于`json-server`或者`mock.js`功能上更加强大
 
+
+
 ## 关于本文
 
 > 自己学习并使用`strapi`的记录，旨在帮助小伙伴们少走弯路
@@ -20,6 +22,14 @@
 
 
 
+
+## 视频教程
+
+英文教程:https://www.youtube.com/watch?v=6FnwAbd2SDY
+
+B站链接:https://www.bilibili.com/video/BV1g54y1R7WY?from=search&seid=3286226291596019120
+
+两个视频是相同的，感谢搬运工
 
 ## 安装
 
